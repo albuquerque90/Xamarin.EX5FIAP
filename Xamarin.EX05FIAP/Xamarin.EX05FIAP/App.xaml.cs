@@ -13,7 +13,7 @@ namespace Xamarin.EX05FIAP
         {
             InitializeComponent();
 
-            MainPage = new Xamarin.EX05FIAP.MainPage();
+            MainPage = new NavigationPage(new Xamarin.EX05FIAP.View.ContatosView());
         }
 
         protected override void OnStart()
