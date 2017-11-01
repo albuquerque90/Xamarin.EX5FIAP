@@ -9,29 +9,44 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using System.Runtime.CompilerServices;
+//using System.Runtime.CompilerServices;
 using Xamarin.EX05FIAP.API;
 using Xamarin.EX05FIAP.Droid;
 using Xamarin.EX05FIAP.Model;
+using Xamarin.Contacts;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
-//[assembly: Dependency(typeof(Contatos_Android))]
+[assembly: Dependency(typeof(Contatos_Android))]
 namespace Xamarin.EX05FIAP.Droid
 {
     public class Contatos_Android : IContatos
     {
         public IEnumerable<Contato> GetContato()
         {
+            var context = Xamarin.Forms.Forms.Context;
+            if (context == null) return null;
+
+            var book = new Xamarin.Contacts.AddressBook(context);
+
             List<Contato> lstContato = new List<Contato>();
-            Contato c = new Contato() { Nome = "Fernando", Telefone = "1111111111" };
-            Contato c1 = new Contato() { Nome = "João", Telefone = "1111111111" };
-            Contato c2 = new Contato() { Nome = "Alberto", Telefone = "1111111111" };
-            Contato c3 = new Contato() { Nome = "Maria", Telefone = "1111111111" };
 
-            lstContato.Add(c);
-            lstContato.Add(c1);
-            lstContato.Add(c2);
-            lstContato.Add(c3);
+            book.RequestPermission().ContinueWith(t =>
+            {
+                if (!t.Result)
+                {
 
+                    return;
+                }
+
+                foreach (Contact contact in book)
+                {
+
+                    Contato contato = new Contato { Nome = contact.DisplayName, Telefone = contact.Phones.First().Number };
+                    lstContato.Add(contato);
+                }
+
+            });
             return lstContato;
         }
     }
