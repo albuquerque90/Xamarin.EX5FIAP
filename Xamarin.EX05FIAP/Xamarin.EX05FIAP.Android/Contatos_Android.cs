@@ -35,17 +35,14 @@ namespace Xamarin.EX05FIAP.Droid
             {
                 if (!t.Result)
                 {
-
                     return;
                 }
 
                 foreach (Contact contact in book)
                 {
-
-                    Contato contato = new Contato { Nome = contact.DisplayName, Telefone = contact.Phones.First().Number };
+                    Contato contato = new Contato { Id = contact.Id, Nome = contact.DisplayName, Telefone = contact.Phones.First().Number };
                     lstContato.Add(contato);
                 }
-
             });
             return lstContato;
         }
