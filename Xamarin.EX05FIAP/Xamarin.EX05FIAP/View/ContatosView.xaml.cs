@@ -33,6 +33,10 @@ namespace Xamarin.EX05FIAP.View
                     if (phone != null) phone.Discar(Telefone);
                 }
             }
+            else
+            {
+                await this.DisplayAlert("Aviso", "Selecione um contato na lista", "OK");
+            }
         }
 
         private void OnItemTapped(object sender, ItemTappedEventArgs e)
