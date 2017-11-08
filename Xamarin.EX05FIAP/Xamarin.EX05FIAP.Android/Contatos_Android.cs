@@ -24,27 +24,35 @@ namespace Xamarin.EX05FIAP.Droid
     {
         public IEnumerable<Contato> GetContato()
         {
-            var context = Xamarin.Forms.Forms.Context;
-            if (context == null) return null;
-
-            var book = new Xamarin.Contacts.AddressBook(context);
-
-            List<Contato> lstContato = new List<Contato>();
-
-            book.RequestPermission().ContinueWith(t =>
+            try
             {
-                if (!t.Result)
-                {
-                    return;
-                }
+                var context = Xamarin.Forms.Forms.Context;
+                if (context == null) return null;
 
-                foreach (Contact contact in book)
+                var book = new Xamarin.Contacts.AddressBook(context);
+
+                List<Contato> lstContato = new List<Contato>();
+
+                book.RequestPermission().ContinueWith(t =>
                 {
-                    Contato contato = new Contato { Id = contact.Id, Nome = contact.DisplayName, Telefone = contact.Phones.First().Number };
-                    lstContato.Add(contato);
-                }
-            });
-            return lstContato;
+                    if (!t.Result)
+                    {
+                        return;
+                    }
+
+                    foreach (Contact contact in book)
+                    {
+                        Contato contato = new Contato { Id = contact.Id, Nome = contact.DisplayName, Telefone = contact.Phones.First().Number };
+                        lstContato.Add(contato);
+                    }
+                });
+                return lstContato;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }
