@@ -58,8 +58,8 @@ namespace Xamarin.EX05FIAP.View
             MessagingCenter.Subscribe<ICoordenadas, Coordenada>
                 (this, "coordenada", (objeto, geo) =>
                 {
-                    //lblLongitude.Text = geo.Longitude;
-                    //lblLatitude.Text = geo.Latitude;
+                    lblLongitude.Text = geo.Longitude;
+                    lblLatitude.Text = geo.Latitude;
                 });
         }
     }

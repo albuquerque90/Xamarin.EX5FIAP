@@ -8,15 +8,19 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Button x:Name="btnPhone" Text="Ligar"  Grid.Row="0" Clicked="OnCall"/>
         <Button x:Name="btnFoto" Text="Trocar Foto"  Grid.Row="1"/>
         <Button x:Name="btnCoodenadas" Text="Capturar Coordenada"  Grid.Row="2" Clicked="btnCoodenadas_Clicked"/>
+        <Label x:Name="lblLongitude" Grid.Row="3"></Label>
+        <Label x:Name="lblLatitude" Grid.Row="4"></Label>
 
 
-        <ListView x:Name="lstContatos" Grid.Row="3" ItemTapped="OnItemTapped">
+        <ListView x:Name="lstContatos" Grid.Row="5" ItemTapped="OnItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

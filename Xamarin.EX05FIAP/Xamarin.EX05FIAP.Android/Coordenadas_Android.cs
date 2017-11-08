@@ -29,6 +29,7 @@ namespace Xamarin.EX05FIAP.Droid
             locator.GetPositionAsync(timeout: 10000).ContinueWith(t => {
                 SetCoordenada(t.Result.Latitude, t.Result.Longitude);
             }, TaskScheduler.FromCurrentSynchronizationContext());
+
         }
 
         void SetCoordenada(double paramLatitude, double paramLongitude)
