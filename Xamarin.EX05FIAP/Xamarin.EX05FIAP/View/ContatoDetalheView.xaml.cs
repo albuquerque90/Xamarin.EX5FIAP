@@ -11,42 +11,27 @@ using Xamarin.Forms.Xaml;
 namespace Xamarin.EX05FIAP.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ContatosView : ContentPage
+    public partial class ContatoDetalheView : ContentPage
     {
-        public string Telefone { get; set; }
-
-        public ContatosView()
+        public ContatoDetalheView()
         {
             InitializeComponent();
-
-            IContatos contatos = DependencyService.Get<IContatos>();
-
-            var a = contatos.GetContato().ToList();
-
-            lstContatos.ItemsSource = a;
         }
 
         private async void OnCall(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(Telefone))
+            if (!string.IsNullOrWhiteSpace(lblTelefone.Text))
             {
-                if (await this.DisplayAlert("Ligando...", "Ligar para " + Telefone + "?", "Sim", "Não"))
+                if (await this.DisplayAlert("Ligando...", "Ligar para " + lblTelefone.Text + "?", "Sim", "Não"))
                 {
                     var phone = DependencyService.Get<ILigar>();
-                    if (phone != null) phone.Discar(Telefone);
+                    if (phone != null) phone.Discar(lblTelefone.Text);
                 }
             }
             else
             {
                 await this.DisplayAlert("Aviso", "Selecione um contato na lista", "OK");
             }
-        }
-
-        private void OnItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            var itemSelecionado = e.Item as Contato;
-
-            Telefone = itemSelecionado.Telefone;
         }
 
         private void btnCoodenadas_Clicked(object sender, EventArgs e)
@@ -61,6 +46,11 @@ namespace Xamarin.EX05FIAP.View
                     //lblLongitude.Text = geo.Longitude;
                     //lblLatitude.Text = geo.Latitude;
                 });
+        }
+
+        private void btnFoto_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }

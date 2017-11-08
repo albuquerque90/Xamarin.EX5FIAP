@@ -26,27 +26,24 @@ namespace Xamarin.EX05FIAP.Droid
         {
             try
             {
-                var context = Xamarin.Forms.Forms.Context;
-                if (context == null) return null;
+               var book = new AddressBook(Xamarin.Forms.Forms.Context);
 
-                var book = new Xamarin.Contacts.AddressBook(context);
+                book.RequestPermission().Wait();
 
-                List<Contato> lstContato = new List<Contato>();
-
-                book.RequestPermission().ContinueWith(t =>
+                var contatos = book.ToList().Select(contact =>
                 {
-                    if (!t.Result)
+                    string phone = null;
+
+                    if (contact.Phones.Count() > 0)
                     {
-                        return;
+                        phone = contact.Phones.FirstOrDefault().Number;
                     }
 
-                    foreach (Contact contact in book)
-                    {
-                        Contato contato = new Contato { Id = contact.Id, Nome = contact.DisplayName, Telefone = contact.Phones.First().Number };
-                        lstContato.Add(contato);
-                    }
-                });
-                return lstContato;
+                    return new Contato { Id = contact.Id, Nome = contact.DisplayName, Telefone = phone };
+
+                }).ToList();
+
+                return contatos;
             }
             catch (Exception ex)
             {
