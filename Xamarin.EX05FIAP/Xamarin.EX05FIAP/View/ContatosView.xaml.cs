@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.EX05FIAP.API;
 using Xamarin.EX05FIAP.Model;
+using Xamarin.EX05FIAP.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,54 +14,35 @@ namespace Xamarin.EX05FIAP.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ContatosView : ContentPage
     {
-        public string Telefone { get; set; }
+        public ContatoViewModel contatosVM = new ContatoViewModel();
 
         public ContatosView()
         {
+            BindingContext = contatosVM;
             InitializeComponent();
 
-            IContatos contatos = DependencyService.Get<IContatos>();
-
-            var a = contatos.GetContato().ToList();
-
-            lstContatos.ItemsSource = a;
+            GetContatos(contatosVM);
         }
 
-        private async void OnCall(object sender, EventArgs e)
+        private void GetContatos(ContatoViewModel vm)
         {
-            if (!string.IsNullOrWhiteSpace(Telefone))
-            {
-                if (await this.DisplayAlert("Ligando...", "Ligar para " + Telefone + "?", "Sim", "Não"))
-                {
-                    var phone = DependencyService.Get<ILigar>();
-                    if (phone != null) phone.Discar(Telefone);
-                }
-            }
-            else
-            {
-                await this.DisplayAlert("Aviso", "Selecione um contato na lista", "OK");
-            }
+            IContatos lista = DependencyService.Get<IContatos>();
+            lista.GetContato(vm);
         }
 
-        private void OnItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            var itemSelecionado = e.Item as Contato;
-
-            Telefone = itemSelecionado.Telefone;
-        }
 
         private void btnCoodenadas_Clicked(object sender, EventArgs e)
         {
-            // injeção de dependência (Xamarin.Forms)
-            ICoordenadas geolocation = DependencyService.Get<ICoordenadas>();
-            geolocation.GetCoordenada();
+            //// injeção de dependência (Xamarin.Forms)
+            //ICoordenadas geolocation = DependencyService.Get<ICoordenadas>();
+            //geolocation.GetCoordenada();
 
-            MessagingCenter.Subscribe<ICoordenadas, Coordenada>
-                (this, "coordenada", (objeto, geo) =>
-                {
-                    lblLongitude.Text = geo.Longitude;
-                    lblLatitude.Text = geo.Latitude;
-                });
+            //MessagingCenter.Subscribe<ICoordenadas, Coordenada>
+            //    (this, "coordenada", (objeto, geo) =>
+            //    {
+            //        lblLongitude.Text = geo.Longitude;
+            //        lblLatitude.Text = geo.Latitude;
+            //    });
         }
     }
 }

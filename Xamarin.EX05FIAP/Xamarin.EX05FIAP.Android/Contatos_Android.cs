@@ -16,34 +16,63 @@ using Xamarin.EX05FIAP.Model;
 using Xamarin.Contacts;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.EX05FIAP.ViewModel;
+using System.IO;
+using Android.Graphics;
 
 [assembly: Dependency(typeof(Contatos_Android))]
 namespace Xamarin.EX05FIAP.Droid
 {
     public class Contatos_Android : IContatos
     {
-        public IEnumerable<Contato> GetContato()
+        public async void GetContato(ContatoViewModel vm)
+        {
+            var context = Xamarin.Forms.Forms.Context as Activity;
+            var book = new Xamarin.Contacts.AddressBook(context);
+            if (await book.RequestPermission())
+            {
+                foreach (Contact contact in book)
+                {
+                    SetContato(contact, vm);
+                }
+            }
+            else
+            {
+                AlertDialog.Builder messageUI = new AlertDialog.Builder(context);
+                messageUI.SetMessage("Permissão negada. Habite acesso a lista de contatos");
+                messageUI.SetTitle("Autorização");
+                messageUI.Create().Show();
+            }
+        }
+
+        void SetContato(Contact paramContato, ContatoViewModel vm)
         {
             try
             {
-               var book = new AddressBook(Xamarin.Forms.Forms.Context);
-
-                book.RequestPermission().Wait();
-
-                var contatos = book.ToList().Select(contact =>
+                var image = paramContato.GetThumbnail();
+                ImageSource imgSource = null;
+                if (image != null)
                 {
-                    string phone = null;
+                    byte[] imgFile = new byte[image.Width * image.Height * 4];
+                    MemoryStream stream = new MemoryStream(imgFile);
+                    image.Compress(Bitmap.CompressFormat.Png, 100, stream);
+                    stream.Flush();
+                    imgSource = ImageSource.FromStream(()
+                        => new MemoryStream(imgFile));
+                }
+                else
+                    imgSource = ImageSource.FromFile("contacts.png");
 
-                    if (contact.Phones.Count() > 0)
-                    {
-                        phone = contact.Phones.FirstOrDefault().Number;
-                    }
+                var contato = new Contato()
+                {
+                    Nome = paramContato.FirstName,
+                    Foto = imgSource
+                };
 
-                    return new Contato { Id = contact.Id, Nome = contact.DisplayName, Telefone = phone };
+                if (paramContato.Phones != null)
+                    contato.Telefone = paramContato.Phones.Select(p => p.Number).FirstOrDefault();
 
-                }).ToList();
-
-                return contatos;
+                vm.Contatos.Add(contato);
             }
             catch (Exception ex)
             {

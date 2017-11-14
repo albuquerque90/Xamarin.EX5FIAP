@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.EX05FIAP.API;
 using Xamarin.EX05FIAP.Model;
+using Xamarin.EX05FIAP.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,25 +14,20 @@ namespace Xamarin.EX05FIAP.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ContatoDetalheView : ContentPage
     {
+        public ContatoViewModel contatosVM = new ContatoViewModel();
+
         public ContatoDetalheView()
         {
+            BindingContext = contatosVM;
             InitializeComponent();
+
+            GetContatos(contatosVM);
         }
 
-        private async void OnCall(object sender, EventArgs e)
+        private void GetContatos(ContatoViewModel vm)
         {
-            if (!string.IsNullOrWhiteSpace(lblTelefone.Text))
-            {
-                if (await this.DisplayAlert("Ligando...", "Ligar para " + lblTelefone.Text + "?", "Sim", "Não"))
-                {
-                    var phone = DependencyService.Get<ILigar>();
-                    if (phone != null) phone.Discar(lblTelefone.Text);
-                }
-            }
-            else
-            {
-                await this.DisplayAlert("Aviso", "Selecione um contato na lista", "OK");
-            }
+            IContatos lista = DependencyService.Get<IContatos>();
+            lista.GetContato(vm);
         }
 
         private void btnCoodenadas_Clicked(object sender, EventArgs e)

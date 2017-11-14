@@ -10,11 +10,11 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Button x:Name="btnPhone" Text="Ligar"  Grid.Row="0" Clicked="OnCall"/>
+        <!--<Button x:Name="btnPhone" Text="Ligar"  Grid.Row="0" Clicked="OnCall"/>
         <Button x:Name="btnFoto" Text="Trocar Foto"  Grid.Row="1" Clicked="btnFoto_Clicked"/>
         <Button x:Name="btnCoodenadas" Text="Capturar Coordenada"  Grid.Row="2" Clicked="btnCoodenadas_Clicked"/>
 
-        <Label x:Name="lblTelefone" Grid.Row="3"></Label>
+        <Label x:Name="lblTelefone" Grid.Row="3"></Label>-->
 
 
     </Grid>

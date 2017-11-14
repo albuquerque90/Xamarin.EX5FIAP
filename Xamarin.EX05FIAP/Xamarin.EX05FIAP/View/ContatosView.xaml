@@ -1,35 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Xamarin.EX05FIAP.View.ContatosView">
+             x:Class="Xamarin.EX05FIAP.View.ContatosView"
+             Title="Contatos" x:Name="pageContato">
 
-    <Grid Padding="5" RowSpacing="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <ContentPage.Content>
+        <StackLayout Padding="1">
+            <ListView x:Name="lstContatos" ItemsSource="{Binding Contatos}"
+                      SelectedItem="{Binding Contato, Mode=TwoWay}" RowHeight="50">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Ligar" BindingContext="{Binding BindingContext, Source={x:Reference Name=pageContato}}" 
+                                          Command="{Binding OnLigarCMD}" CommandParameter="{Binding Contato}" />
+                                <!--<MenuItem Text="Detalhes" BindingContext="{Binding BindingContext, Source={x:Reference Name=pageContato}}"
+                                          Command="{Binding OnDetalheCMD}" CommandParameter="{Binding Contato}" />-->
+                            </ViewCell.ContextActions>
+                            <StackLayout>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="55" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-        <Button x:Name="btnPhone" Text="Ligar"  Grid.Row="0" Clicked="OnCall"/>
-        <Button x:Name="btnFoto" Text="Trocar Foto"  Grid.Row="1"/>
-        <Button x:Name="btnCoodenadas" Text="Capturar Coordenada"  Grid.Row="2" Clicked="btnCoodenadas_Clicked"/>
-        <Label x:Name="lblLongitude" Grid.Row="3"></Label>
-        <Label x:Name="lblLatitude" Grid.Row="4"></Label>
-
-
-        <ListView x:Name="lstContatos" Grid.Row="5" ItemTapped="OnItemTapped">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Padding="10,10,0,0" HeightRequest="30" >
-                            <Label Text="{Binding Nome}" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>
+                                    <Image Grid.Column="0" Source="{Binding Foto}" Aspect="Fill" />
+                                    <StackLayout Grid.Column="1">
+                                        <Label Text="{Binding Nome}" Style="{StaticResource LabelViewCellPai}" Margin="0,2,0,4" />
+                                        <Label Text="{Binding Telefone}" Style="{StaticResource LabelViewCellFilho}" />
+                                    </StackLayout>
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+    
 </ContentPage>
