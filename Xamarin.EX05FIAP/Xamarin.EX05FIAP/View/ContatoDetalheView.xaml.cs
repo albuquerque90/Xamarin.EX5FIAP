@@ -12,11 +12,11 @@ using Xamarin.Forms.Xaml;
 namespace Xamarin.EX05FIAP.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ContatosView : ContentPage
+    public partial class ContatoDetalheView : ContentPage
     {
         public ContatoViewModel contatosVM = new ContatoViewModel();
 
-        public ContatosView()
+        public ContatoDetalheView()
         {
             BindingContext = contatosVM;
             InitializeComponent();
@@ -30,19 +30,23 @@ namespace Xamarin.EX05FIAP.View
             lista.GetContato(vm);
         }
 
-
         private void btnCoodenadas_Clicked(object sender, EventArgs e)
         {
-            //// injeção de dependência (Xamarin.Forms)
-            //ICoordenadas geolocation = DependencyService.Get<ICoordenadas>();
-            //geolocation.GetCoordenada();
+            // injeção de dependência (Xamarin.Forms)
+            ICoordenadas geolocation = DependencyService.Get<ICoordenadas>();
+            geolocation.GetCoordenada();
 
-            //MessagingCenter.Subscribe<ICoordenadas, Coordenada>
-            //    (this, "coordenada", (objeto, geo) =>
-            //    {
-            //        lblLongitude.Text = geo.Longitude;
-            //        lblLatitude.Text = geo.Latitude;
-            //    });
+            MessagingCenter.Subscribe<ICoordenadas, Coordenada>
+                (this, "coordenada", (objeto, geo) =>
+                {
+                    //lblLongitude.Text = geo.Longitude;
+                    //lblLatitude.Text = geo.Latitude;
+                });
+        }
+
+        private void btnFoto_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }
