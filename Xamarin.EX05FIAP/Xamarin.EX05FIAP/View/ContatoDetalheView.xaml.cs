@@ -20,33 +20,6 @@ namespace Xamarin.EX05FIAP.View
         {
             BindingContext = contatosVM;
             InitializeComponent();
-
-            GetContatos(contatosVM);
-        }
-
-        private void GetContatos(ContatoViewModel vm)
-        {
-            IContatos lista = DependencyService.Get<IContatos>();
-            lista.GetContato(vm);
-        }
-
-        private void btnCoodenadas_Clicked(object sender, EventArgs e)
-        {
-            // injeção de dependência (Xamarin.Forms)
-            ICoordenadas geolocation = DependencyService.Get<ICoordenadas>();
-            geolocation.GetCoordenada();
-
-            MessagingCenter.Subscribe<ICoordenadas, Coordenada>
-                (this, "coordenada", (objeto, geo) =>
-                {
-                    //lblLongitude.Text = geo.Longitude;
-                    //lblLatitude.Text = geo.Latitude;
-                });
-        }
-
-        private void btnFoto_Clicked(object sender, EventArgs e)
-        {
-
         }
     }
 }

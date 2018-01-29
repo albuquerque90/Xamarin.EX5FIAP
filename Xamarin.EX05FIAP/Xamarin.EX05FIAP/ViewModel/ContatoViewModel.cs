@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Content;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,11 +32,13 @@ namespace Xamarin.EX05FIAP.ViewModel
         {
             OnLigarCMD = new OnLigarCMD(this);
             OnDetalheCMD = new OnDetalheCMD(this);
+            OnGetCoordenadaCMD = new OnGetCoordenadaCMD(this);
         }
 
         public ObservableCollection<Contato> Contatos { get; set; } = new ObservableCollection<Contato>();
         public OnLigarCMD OnLigarCMD { get; }
         public OnDetalheCMD OnDetalheCMD { get; }
+        public OnGetCoordenadaCMD OnGetCoordenadaCMD { get; }
 
         public async void Ligar(Contato paramContato)
         {
@@ -63,23 +66,20 @@ namespace Xamarin.EX05FIAP.ViewModel
             }
         }
 
-        public async void GetCoordenada()
+        public void GetCoordenada()
         {
-            string longitude = null;
-            string latitude = null;
-
             ICoordenadas geolocation = DependencyService.Get<ICoordenadas>();
             geolocation.GetCoordenada();
 
             MessagingCenter.Subscribe<ICoordenadas, Coordenada>
                 (this, "coordenada", (objeto, geo) =>
                 {
-                    longitude = geo.Longitude;
-                    latitude = geo.Latitude;
+                    var geoUri = global::Android.Net.Uri.Parse($"geo:{geo.Latitude},{geo.Longitude}");
+                    Intent mapIntent = new Intent(Intent.ActionView, geoUri);
+                    mapIntent.AddFlags(ActivityFlags.NewTask);
+                    //StartActivity(mapIntent);
+                    global::Android.App.Application.Context.StartActivity(mapIntent);
                 });
-
-            await App.Current.MainPage.DisplayAlert(
-                    "Coordenada...", $"lat {latitude} long {longitude}", "Sim", "Não");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

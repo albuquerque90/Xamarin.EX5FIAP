@@ -1,25 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Xamarin.EX05FIAP.View.ContatoDetalheView">
+             x:Class="Xamarin.EX05FIAP.View.ContatoDetalheView"
+             x:Name="contatodetalhe">
     <Grid Padding="5" RowSpacing="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
+        <Image x:Name="imgFoto" Grid.Row="0" Source="{Binding Foto, Mode=TwoWay}" ></Image>
+        <Label x:Name="lblNome" Grid.Row="1" Text="{Binding Nome}" ></Label>
+        <Label x:Name="lblTelefone" Grid.Row="2" Text="{Binding Telefone}" ></Label>
         
 
-        <Label x:Name="lblTelefone" Grid.Row="3"></Label>
+        <Button x:Name="btnLigar" Text="Ligar" Grid.Row="3" BindingContext="{Binding BindingContext, Source={x:Reference Name=contatodetalhe}}"
+                                          Command="{Binding OnLigarCMD}" CommandParameter="{Binding Contato}"/>
 
-        <StackLayout Padding="5">
-            <Button x:Name="btnCoordenada" Text="Localização" 
-                    />
-            <Label x:Name="lblLatitude" />
-            <Label x:Name="lblLongitude" />
-        </StackLayout>
+
+
 
 
     </Grid>
