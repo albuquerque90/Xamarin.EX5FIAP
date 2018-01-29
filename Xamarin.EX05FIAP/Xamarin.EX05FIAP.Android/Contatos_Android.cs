@@ -45,7 +45,7 @@ namespace Xamarin.EX05FIAP.Droid
             }
         }
 
-        void SetContato(Contact paramContato, ContatoViewModel vm)
+        public void SetContato(Contact paramContato, ContatoViewModel vm)
         {
             try
             {

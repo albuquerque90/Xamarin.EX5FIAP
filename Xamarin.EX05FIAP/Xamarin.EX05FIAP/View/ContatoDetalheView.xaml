@@ -9,6 +9,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Image x:Name="imgFoto" Grid.Row="0" Source="{Binding Foto, Mode=TwoWay}" ></Image>
@@ -16,8 +18,12 @@
         <Label x:Name="lblTelefone" Grid.Row="2" Text="{Binding Telefone}" ></Label>
         
 
-        <Button x:Name="btnLigar" Text="Ligar" Grid.Row="3" BindingContext="{Binding BindingContext, Source={x:Reference Name=contatodetalhe}}"
-                                          Command="{Binding OnLigarCMD}" CommandParameter="{Binding Contato}"/>
+        <Button x:Name="btnLigar" Text="Ligar" Grid.Row="3" 
+                                          Clicked="btnLigar_Clicked"/>
+        <Button x:Name="btnTrocarFoto" Text="Trocar Foto" Grid.Row="4" 
+                                         Clicked="btnTrocarFoto_Clicked" />
+        <Button x:Name="btnCoordenadas" Text="Coordenadas" Grid.Row="5" 
+                                         Clicked="btnCoordenadas_Clicked" />
 
 
 
