@@ -43,6 +43,26 @@ namespace Xamarin.EX05FIAP.View
             //        lblLongitude.Text = geo.Longitude;
             //        lblLatitude.Text = geo.Latitude;
             //    });
+
+            //string longitude = null;
+            //string latitude = null;
+
+            ICoordenadas geolocation = DependencyService.Get<ICoordenadas>();
+            geolocation.GetCoordenada();
+
+            MessagingCenter.Subscribe<ICoordenadas, Coordenada>
+                (this, "coordenada", (objeto, geo) =>
+                {
+                    //longitude = geo.Longitude;
+                    //latitude = geo.Latitude;
+
+                    App.Current.MainPage.DisplayAlert(
+                    "Coordenada...", $"lat {geo.Latitude} long {geo.Longitude}", "Sim", "Não");
+
+                   
+                });
+
+             
         }
     }
 }

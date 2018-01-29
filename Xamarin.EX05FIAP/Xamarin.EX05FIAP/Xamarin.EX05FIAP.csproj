@@ -85,7 +85,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="View\ContatoDetalheView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

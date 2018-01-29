@@ -63,6 +63,25 @@ namespace Xamarin.EX05FIAP.ViewModel
             }
         }
 
+        public async void GetCoordenada()
+        {
+            string longitude = null;
+            string latitude = null;
+
+            ICoordenadas geolocation = DependencyService.Get<ICoordenadas>();
+            geolocation.GetCoordenada();
+
+            MessagingCenter.Subscribe<ICoordenadas, Coordenada>
+                (this, "coordenada", (objeto, geo) =>
+                {
+                    longitude = geo.Longitude;
+                    latitude = geo.Latitude;
+                });
+
+            await App.Current.MainPage.DisplayAlert(
+                    "Coordenada...", $"lat {latitude} long {longitude}", "Sim", "Não");
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void EventPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -120,7 +139,28 @@ namespace Xamarin.EX05FIAP.ViewModel
         }
         public void Execute(object parameter)
         {
-            //contatoVM.GetDetalhe(parameter as Contato);
+            contatoVM.GetDetalhe(parameter as Contato);
+        }
+    }
+
+    public class OnGetCoordenadaCMD : ICommand
+    {
+        private ContatoViewModel contatoVM;
+        public OnGetCoordenadaCMD(ContatoViewModel paramVM)
+        {
+            contatoVM = paramVM;
+        }
+        public event EventHandler CanExecuteChanged;
+        public void CoordenadaCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        public bool CanExecute(object parameter)
+        {
+            if (parameter != null) return true;
+
+            return false;
+        }
+        public void Execute(object parameter)
+        {
+            contatoVM.GetCoordenada();
         }
     }
 }

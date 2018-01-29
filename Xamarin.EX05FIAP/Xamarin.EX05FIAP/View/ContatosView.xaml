@@ -14,8 +14,12 @@
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Ligar" BindingContext="{Binding BindingContext, Source={x:Reference Name=pageContato}}" 
                                           Command="{Binding OnLigarCMD}" CommandParameter="{Binding Contato}" />
+                                <!--<MenuItem Text="Trocar Foto" BindingContext="{Binding BindingContext, Source={x:Reference Name=pageContato}}" 
+                                          Command="{Binding OnLigarCMD}" CommandParameter="{Binding Contato}" />-->
                                 <!--<MenuItem Text="Detalhes" BindingContext="{Binding BindingContext, Source={x:Reference Name=pageContato}}"
                                           Command="{Binding OnDetalheCMD}" CommandParameter="{Binding Contato}" />-->
+                                <MenuItem Text="Coordenada" BindingContext="{Binding BindingContext, Source={x:Reference Name=pageContato}}"
+                                          Command="{Binding OnGetCoordenadaCMD}" CommandParameter="{Binding Contato}" Clicked="btnCoodenadas_Clicked"/>
                             </ViewCell.ContextActions>
                             <StackLayout>
                                 <Grid>
